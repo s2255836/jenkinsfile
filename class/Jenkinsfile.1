@@ -1,0 +1,40 @@
+pipeline {
+  agent any
+  stages {
+    stage('install_tool') {
+      parallel {
+        stage('install_tool') {
+          steps {
+            sh 'sudo pip3 install virtualenv ; echo \'virtualenv\''
+          }
+        }
+
+        stage('type') {
+          steps {
+            input(message: 'type_some', id: '1', ok: '2', submitter: '3', submitterParameter: '4')
+            sh 'env | sort'
+          }
+        }
+
+      }
+    }
+
+    stage('python_ver') {
+      steps {
+        pysh(script: 'python --version', returnStdout: true, returnStatus: true)
+      }
+    }
+
+    stage('p3') {
+      steps {
+        withPythonEnv(pythonInstallation: 'python3') {
+          sh(script: 'python --version', label: 'echo', returnStatus: true, returnStdout: true)
+          echo 'hallo'
+        }
+
+        sh 'echo done'
+      }
+    }
+
+  }
+}

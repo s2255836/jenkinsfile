@@ -1,0 +1,36 @@
+pipeline {
+  agent any
+  environment {
+      testparams = ''
+      testparams2 = ''
+  }
+  stages {
+      stage('step1') {
+          steps {
+              script {
+                  testparams = input(
+                      message: 'are you 18 years old?',
+                      ok: 'YES I AM',
+                      submitter: 'admin,brian.lin',
+                  )
+                  testparams2 = input(
+                  message: 'type something',
+                  ok: 'done',
+                  parameters: [
+                          choice(choices: "animei\n3P\nSM\n", description: 'pornhub', name: 'interest'),
+                          string(defaultValue: 'vic', description: 'your name', name: 'name')
+                      ],
+                  submitterParameter: 'who'
+                  )                  
+              }
+          }
+      }
+      stage('step2') {
+          steps {
+              echo "your name is: ${testparams2['name']}"
+              echo "you like: ${testparams2['interest']}"
+              echo "user: ${testparams2['who']}"
+          }
+      }
+  }
+}
